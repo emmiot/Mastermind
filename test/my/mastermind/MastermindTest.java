@@ -55,9 +55,9 @@ public class MastermindTest {
         ArrayList<Integer> lista = new ArrayList<Integer>();
         rivi.aseta(0, "sininen");
         rivi.aseta(1, "punainen");
-        rivi.aseta(2, "musta");
-        rivi.aseta(3, "sininen");
-        lista = rivi.etsiVari("sininen");
+        rivi.aseta(2, "sininen");
+        rivi.aseta(3, "musta");
+        lista = rivi.etsiVari("musta");
         assertTrue(!lista.isEmpty());
     }
 

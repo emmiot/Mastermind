@@ -20,7 +20,7 @@ public class Rivi {
     
     public ArrayList<Integer> etsiVari(String vari) {
         ArrayList<Integer> palautus = new ArrayList<Integer>();
-        for (int i=0; i<3; i++) {
+        for (int i=0; i<4; i++) {
             if (rivi[i].equals(vari)) {
                 palautus.add(i);
             }
