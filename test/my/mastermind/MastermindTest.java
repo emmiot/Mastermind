@@ -16,6 +16,7 @@ public class MastermindTest {
 
     public MastermindTest() {
     }
+    Rivi rivi;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -27,6 +28,11 @@ public class MastermindTest {
 
     @Before
     public void setUp() {
+        rivi = new Rivi();
+        rivi.aseta(0, "sininen");
+        rivi.aseta(1, "punainen");
+        rivi.aseta(2, "sininen");
+        rivi.aseta(3, "musta");
     }
 
     @After
@@ -35,40 +41,25 @@ public class MastermindTest {
 
     @Test
     public void teeRivi() {
-        Rivi rivi = new Rivi();
-        rivi.aseta(0, "sininen");
-        rivi.aseta(1, "punainen");
-        rivi.aseta(2, "musta");
-        rivi.aseta(3, "sininen");
-        assertTrue(rivi.getIndeksi(0) != null && rivi.getIndeksi(1) != null && rivi.getIndeksi(2) != null && rivi.getIndeksi(3) != null);
+        assertTrue(rivi.getNappula(0) != null && rivi.getNappula(1) != null && rivi.getNappula(2) != null && rivi.getNappula(3) != null);
     }
 
     @Test
     public void variAsettuuOikein() {
-        Pelinappula nappula = new Pelinappula("punainen");
+        Nappula nappula = new Nappula("punainen");
         assertTrue(nappula.getVari().equals("punainen"));
     }
 
     @Test
     public void etsiVariJaLoyda() {
-        Rivi rivi = new Rivi();
         ArrayList<Integer> lista = new ArrayList<Integer>();
-        rivi.aseta(0, "sininen");
-        rivi.aseta(1, "punainen");
-        rivi.aseta(2, "sininen");
-        rivi.aseta(3, "musta");
         lista = rivi.etsiVari("musta");
         assertTrue(!lista.isEmpty());
     }
 
     @Test
     public void etsiVariJaEiLoydy() {
-        Rivi rivi = new Rivi();
         ArrayList<Integer> lista = new ArrayList<Integer>();
-        rivi.aseta(0, "sininen");
-        rivi.aseta(1, "punainen");
-        rivi.aseta(2, "musta");
-        rivi.aseta(3, "sininen");
         lista = rivi.etsiVari("valkoinen");
         assertTrue(lista.isEmpty());
     }

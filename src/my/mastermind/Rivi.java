@@ -2,26 +2,49 @@ package my.mastermind;
 
 import java.util.ArrayList;
 
+/**
+ * Luokasta voi tehdä neljän nappulan rivejä.
+ * @author Emmi Otava
+ */
 public class Rivi {
 
-    private String[] rivi;
+    private Nappula[] rivi;
 
     public Rivi() {
-        rivi = new String[4];
+        rivi = new Nappula[4];
     }
 
+    /**
+     * Asettaa haluttuun indeksiin halutun värisen nappulan.
+     *
+     * @param indeksi
+     * @param vari
+     */
     public void aseta(int indeksi, String vari) {
-        rivi[indeksi] = vari;
+        Nappula nappula = new Nappula(vari);
+        rivi[indeksi] = nappula;
     }
-    
-    public String getIndeksi(int indeksi) {
+
+    /**
+     * Palauttaa sen nappulan, joka sijaitsee syötetyssä indeksissä.
+     *
+     * @param indeksi
+     * @return nappula halutun indeksin alta
+     */
+    public Nappula getNappula(int indeksi) {
         return rivi[indeksi];
     }
-    
+
+    /**
+     * Etsii halutun värin kaikki ilmentymät rivistä.
+     *
+     * @param vari
+     * @return lista, jossa kaikki oikeanväristen nappuloiden indeksit
+     */
     public ArrayList<Integer> etsiVari(String vari) {
         ArrayList<Integer> palautus = new ArrayList<Integer>();
-        for (int i=0; i<4; i++) {
-            if (rivi[i].equals(vari)) {
+        for (int i = 0; i < 4; i++) {
+            if (rivi[i].getVari().equals(vari)) {
                 palautus.add(i);
             }
         }
