@@ -9,6 +9,5 @@ public class Pelimekaniikka {
     
     public void aloitaPeli() {
         tietokone.generoiRivi();
-        
     }
 }
