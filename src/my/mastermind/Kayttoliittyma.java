@@ -13,11 +13,17 @@ public class Kayttoliittyma {
     
     private Pelimekaniikka peli;
 
+    /**
+     * Käynnistää loopin.
+     */
     void kaynnisty() {
         System.out.println("Tervetuloa pelaamaan Mastermind-peliä!");
         loop();
     }
 
+    /**
+     * Hoitaa keskeiset toiminnot.
+     */
     private void loop() {
         while (true) {
             System.out.println("0 : Aloita uusi peli");
@@ -32,6 +38,9 @@ public class Kayttoliittyma {
         }
     }
 
+    /**
+     * Aloittaa uuden pelin.
+     */
     private void uusiPeli() {
         peli = new Pelimekaniikka();
         

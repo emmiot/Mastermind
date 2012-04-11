@@ -11,6 +11,9 @@ public class Main {
         for (int i = 0; i < 100; i++) {
             arvoVari();
         }
+        
+        //Pelimekaniikka peli = new Pelimekaniikka();
+        //peli.aloitaPeli();
     }
 
     private static void arvoVari() {
