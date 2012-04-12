@@ -4,6 +4,7 @@ import java.util.Random;
 
 /**
  * Hoitaa vastapuolen pelimekaniikan.
+ *
  * @author Emmi Otava
  */
 public class Tietokone {
@@ -19,7 +20,8 @@ public class Tietokone {
     }
 
     /**
-     * Generoi satunnaisen rivin, jota pelaaja yrittää arvata. Rivi jää olion sisälle muistiin.
+     * Generoi satunnaisen rivin, jota pelaaja yrittää arvata. Rivi jää olion
+     * sisälle muistiin.
      */
     public void generoiRivi() {
         oikeaRivi = new Rivi();
@@ -30,6 +32,7 @@ public class Tietokone {
 
     /**
      * generoiRivin apumetodi, joka arpoo värin.
+     *
      * @return Satunnainen väri sallituista nappulan väreistä.
      */
     private String arvoVari() {
@@ -51,5 +54,48 @@ public class Tietokone {
         } else {
             return "valkoinen";
         }
+    }
+
+    /**
+     * Tarkistaa pelaajan syöttämän rivin, ja antaa ohjeet
+     * generoiPalauterivi():lle, millainen palauterivi pitää tehdä.
+     *
+     * @param pelaajanArvaus Pelaajan arvaama rivi.
+     * @return
+     */
+    public Rivi tarkistaRivi(Rivi pelaajanArvaus) {
+        int musta = 0;
+        int valkoinen = 0;
+        for (int i = 0; i < 4; i++) {
+            if (pelaajanArvaus.getNappula(i).getVari().equals(oikeaRivi.getNappula(i).getVari())) {
+                musta++;
+            }
+            // TODO implementoi vielä valkoisten nappuloiden määrän laskeminen
+        }
+        return generoiPalauterivi(musta, valkoinen);
+    }
+
+    /**
+     * Generoi palauterivin, joka kertoo pelaajalle, montako arvauksesta meni
+     * oikein tai edes lähelle.
+     *
+     * @param mustienMaara Palauteriviin tulevien mustien nappuloiden määrä.
+     * @param valkoistenMaara Palauteriviin tulevien valkoisten nappuloiden
+     * määrä.
+     * @return
+     */
+    public Rivi generoiPalauterivi(int mustienMaara, int valkoistenMaara) {
+        Rivi palauteRivi = new Rivi();
+        for (int i = 0; i < 4; i++) {
+            if (mustienMaara > 0) {
+                palauteRivi.aseta(i, "musta");
+                mustienMaara = mustienMaara - 1;
+            }
+            if (valkoistenMaara > 0) {
+                palauteRivi.aseta(i, "valkoinen");
+                valkoistenMaara = valkoistenMaara - 1;
+            }
+        }
+        return palauteRivi;
     }
 }

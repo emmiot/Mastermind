@@ -4,12 +4,16 @@ import java.util.ArrayList;
 
 /**
  * Luokasta voi tehdä neljän nappulan rivejä.
+ *
  * @author Emmi Otava
  */
 public class Rivi {
 
     private Nappula[] rivi;
 
+    /**
+     * Luo rivin.
+     */
     public Rivi() {
         rivi = new Nappula[4];
     }

@@ -3,7 +3,7 @@ package my.mastermind;
 import java.util.Random;
 
 public class Main {
-    
+
     public static Random random;
 
     public static void main(String args[]) {
@@ -11,9 +11,10 @@ public class Main {
         for (int i = 0; i < 100; i++) {
             arvoVari();
         }
-        
-        //Pelimekaniikka peli = new Pelimekaniikka();
-        //peli.aloitaPeli();
+
+        Tekstikayttoliittyma kayttis = new Tekstikayttoliittyma();
+        Pelimekaniikka peli = new Pelimekaniikka(kayttis);
+        peli.valikko();
     }
 
     private static void arvoVari() {

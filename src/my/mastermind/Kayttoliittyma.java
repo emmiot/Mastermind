@@ -1,49 +1,20 @@
-
 package my.mastermind;
 
-import java.util.Scanner;
-
 /**
- *Tekstipohjainen käyttöliittymä väliaikaiskäyttöön.
- * @author eotava
+ * Käyttöliittymä-rajapinta.
+ * @author Emmi Otava
  */
-public class Kayttoliittyma {
-    
-    private static Scanner lukija = new Scanner(System.in);
-    
-    private Pelimekaniikka peli;
+public interface Kayttoliittyma {
 
     /**
-     * Käynnistää loopin.
+     * Palauttaa tiedon, aloitetaanko uusi peli vai lopetetaanko.
+     *
+     * @return
      */
-    void kaynnisty() {
-        System.out.println("Tervetuloa pelaamaan Mastermind-peliä!");
-        loop();
-    }
+    public int valikko();
 
     /**
-     * Hoitaa keskeiset toiminnot.
+     * Palauttaa (sitten kun on implementoitu) pelaajan arvaaman rivin.
      */
-    private void loop() {
-        while (true) {
-            System.out.println("0 : Aloita uusi peli");
-            System.out.println("1: Lopeta");
-            int a = lukija.nextInt();
-            if (a == 1) {
-                break;
-            }
-            if (a == 0) {
-                uusiPeli();
-            }
-        }
-    }
-
-    /**
-     * Aloittaa uuden pelin.
-     */
-    private void uusiPeli() {
-        peli = new Pelimekaniikka();
-        
-    }
-    
+    public void kysyPelaajalta();
 }
