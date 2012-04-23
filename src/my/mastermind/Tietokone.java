@@ -64,13 +64,20 @@ public class Tietokone {
      * @return
      */
     public Rivi tarkistaRivi(Rivi pelaajanArvaus) {
+        int[] apuTaulu = new int[4];
         int musta = 0;
         int valkoinen = 0;
         for (int i = 0; i < 4; i++) {
             if (pelaajanArvaus.getNappula(i).getVari().equals(oikeaRivi.getNappula(i).getVari())) {
                 musta++;
+                apuTaulu[i] = 1;
+                oikeaRivi.aseta(i, null);
             }
-            // TODO implementoi vielä valkoisten nappuloiden määrän laskeminen
+        }
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                
+            }
         }
         return generoiPalauterivi(musta, valkoinen);
     }

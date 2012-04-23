@@ -29,4 +29,9 @@ public class Nappula {
     public String getVari() {
         return vari;
     }
+    
+    @Override
+    public String toString() {
+        return vari;
+    }
 }

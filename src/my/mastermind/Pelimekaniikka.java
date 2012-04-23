@@ -11,6 +11,8 @@ public class Pelimekaniikka {
     private Tietokone tietokone;
     private boolean arvattuOikein; // tarvitaankohan edes?
     private int arvauksia;
+    Rivi[] edellisetArvaukset;
+    int edArvIterator;
 
     /**
      * Konstruktori. arvattuOikein asetetaan falseksi ja uusi Tietokone-olio
@@ -22,6 +24,8 @@ public class Pelimekaniikka {
         this.tietokone = new Tietokone();
         this.kayttis = kayttis;
         this.arvauksia = 0;
+        edellisetArvaukset = new Rivi[10];
+        edArvIterator = 0;
     }
 
     /**
@@ -48,8 +52,20 @@ public class Pelimekaniikka {
      * Pyörittää keskeistä pelimekaniikkaa.
      */
     public void loop() {
+        if (arvauksia >= 10) {
+            havio();
+        }
         kayttis.kysyPelaajalta();
+        if (kayttis.riviOk() == 1) {
+            kayttis.rivinKorjaus();
+        }
+        edellisetArvaukset[edArvIterator] = kayttis.getRivi();
+        edArvIterator++;
         arvauksia++;
-        // TODO implementoi pelin lopetus, jos arvauksien määrä nousee yli 10
+        tietokone.tarkistaRivi(kayttis.getRivi());
+    }
+
+    private void havio() {
+        System.out.println("Hävisit! Liikaa arvauksia.");
     }
 }

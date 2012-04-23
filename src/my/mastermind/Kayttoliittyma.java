@@ -14,7 +14,16 @@ public interface Kayttoliittyma {
     public int valikko();
 
     /**
-     * Palauttaa (sitten kun on implementoitu) pelaajan arvaaman rivin.
+     * Palauttaa pelaajan arvaaman rivin.
      */
     public void kysyPelaajalta();
+    
+    /**
+     * Varmistaa ennen lähetystä, onko rivi OK.
+     */
+    public void rivinKorjaus();
+    
+    public Rivi getRivi();
+
+    public int riviOk();
 }
