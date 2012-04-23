@@ -1,13 +1,17 @@
 package my.mastermind;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Hoitaa keskeisen pelimekaniikan.
  *
  * @author Emmi Otava
  */
-public class Pelimekaniikka {
+public class Pelimekaniikka implements ActionListener {
 
     private Kayttoliittyma kayttis;
+    private MastermindUI ui;
     private Tietokone tietokone;
     private boolean arvattuOikein; // tarvitaankohan edes?
     private int arvauksia;
@@ -19,13 +23,15 @@ public class Pelimekaniikka {
      * luodaan. Arvauksien määrä asetetaan nollaksi ja annetaan viite
      * Käyttöliittymä-rajapinnan toteuttavaan olioon.
      */
-    public Pelimekaniikka(Kayttoliittyma kayttis) {
+    public Pelimekaniikka(MastermindUI ui) {
         this.arvattuOikein = false;
         this.tietokone = new Tietokone();
-        this.kayttis = kayttis;
+        this.ui = ui;
         this.arvauksia = 0;
         edellisetArvaukset = new Rivi[10];
         edArvIterator = 0;
+        ui.setListener(this);
+        ui.setVisible(true);
     }
 
     /**
@@ -67,5 +73,10 @@ public class Pelimekaniikka {
 
     private void havio() {
         System.out.println("Hävisit! Liikaa arvauksia.");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

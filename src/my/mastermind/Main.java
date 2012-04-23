@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Main {
 
-    public static Random random;
-
+//    public static Random random;
+//
     public static void main(String args[]) {
 //        random = new Random();
 //        for (int i = 0; i < 100; i++) {
@@ -13,7 +13,8 @@ public class Main {
 //        }
 
         Tekstikayttoliittyma kayttis = new Tekstikayttoliittyma();
-        Pelimekaniikka peli = new Pelimekaniikka(kayttis);
+        MastermindUI ui = new MastermindUI();
+        Pelimekaniikka peli = new Pelimekaniikka(ui);
         peli.valikko();
     }
 
