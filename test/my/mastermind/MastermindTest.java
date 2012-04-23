@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package my.mastermind;
 
 import java.util.ArrayList;
@@ -16,10 +13,13 @@ public class MastermindTest {
 
     public MastermindTest() {
     }
+    
+    
     Rivi rivi;
     Kayttoliittyma kayttis;
     Pelimekaniikka peli;
     Tietokone tietokone;
+    MastermindUI ui;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -32,6 +32,8 @@ public class MastermindTest {
     @Before
     public void setUp() {
         kayttis = new Tekstikayttoliittyma();
+        ui = new MastermindUI();
+//        peli = new Pelimekaniikka(ui);
         peli = new Pelimekaniikka(kayttis);
         tietokone = new Tietokone();
         rivi = new Rivi();
@@ -82,3 +84,4 @@ public class MastermindTest {
     }
     // --------- Nappula testit
 }
+

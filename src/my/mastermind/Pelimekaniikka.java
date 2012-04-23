@@ -23,7 +23,8 @@ public class Pelimekaniikka implements ActionListener {
      * luodaan. Arvauksien määrä asetetaan nollaksi ja annetaan viite
      * Käyttöliittymä-rajapinnan toteuttavaan olioon.
      */
-    public Pelimekaniikka(MastermindUI ui) {
+//    public Pelimekaniikka(MastermindUI ui) {
+      public Pelimekaniikka(Kayttoliittyma kayttis) {
         this.arvattuOikein = false;
         this.tietokone = new Tietokone();
         this.ui = ui;
