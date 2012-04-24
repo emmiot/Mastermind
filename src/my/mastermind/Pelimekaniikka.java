@@ -13,10 +13,10 @@ public class Pelimekaniikka implements ActionListener {
     private Kayttoliittyma kayttis;
     private MastermindUI ui;
     private Tietokone tietokone;
-    private boolean arvattuOikein; // tarvitaankohan edes?
     private int arvauksia;
     Rivi[] edellisetArvaukset;
     int edArvIterator;
+    Rivi palaute;
 
     /**
      * Konstruktori. arvattuOikein asetetaan falseksi ja uusi Tietokone-olio
@@ -24,15 +24,14 @@ public class Pelimekaniikka implements ActionListener {
      * Käyttöliittymä-rajapinnan toteuttavaan olioon.
      */
 //    public Pelimekaniikka(MastermindUI ui) {
-      public Pelimekaniikka(Kayttoliittyma kayttis) {
-        this.arvattuOikein = false;
+    public Pelimekaniikka(Kayttoliittyma kayttis) {
         this.tietokone = new Tietokone();
-        this.ui = ui;
         this.arvauksia = 0;
         edellisetArvaukset = new Rivi[10];
         edArvIterator = 0;
-        ui.setListener(this);
-        ui.setVisible(true);
+//        this.ui = ui;
+//        ui.setListener(this);
+//        ui.setVisible(true);
     }
 
     /**
@@ -69,11 +68,24 @@ public class Pelimekaniikka implements ActionListener {
         edellisetArvaukset[edArvIterator] = kayttis.getRivi();
         edArvIterator++;
         arvauksia++;
-        tietokone.tarkistaRivi(kayttis.getRivi());
+        palaute = tietokone.tarkistaRivi(kayttis.getRivi());
+        if (tietokone.getArvattuOikein()) {
+            voitto();
+        } else {
+            kayttis.naytaPalaute(palaute, arvauksia);
+        }
+    }
+
+    private void voitto() {
+        System.out.println("Onneksi olkoon, voitit pelin " + arvauksia + " arvauksella!");
+        valikko();
     }
 
     private void havio() {
         System.out.println("Hävisit! Liikaa arvauksia.");
+        System.out.println("Oikea rivi olisi ollut: ");
+        tietokone.tulostaOikeaRivi();
+        valikko();
     }
 
     @Override

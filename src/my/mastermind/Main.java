@@ -13,7 +13,7 @@ public class Main {
 //        }
 
         Tekstikayttoliittyma kayttis = new Tekstikayttoliittyma();
-        MastermindUI ui = new MastermindUI();
+//        MastermindUI ui = new MastermindUI();
 //        Pelimekaniikka peli = new Pelimekaniikka(ui);
         Pelimekaniikka peli = new Pelimekaniikka(kayttis);
         peli.valikko();

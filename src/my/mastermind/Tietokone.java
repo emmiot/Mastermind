@@ -11,12 +11,14 @@ public class Tietokone {
 
     private Rivi oikeaRivi;
     private Random random;
+    private boolean arvattuOikein;
 
     /**
      * Luodaan olio sekä uusi Random-olio, joka laitetaan talteen.
      */
     public Tietokone() {
         random = new Random();
+        this.arvattuOikein = false;
     }
 
     /**
@@ -74,9 +76,16 @@ public class Tietokone {
                 oikeaRivi.aseta(i, null);
             }
         }
+        if (musta == 4) {
+            arvattuOikein = true;
+        }
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                
+                if (oikeaRivi.getNappula(j) != null) {
+                    if (pelaajanArvaus.getNappula(i).getVari().equals(oikeaRivi.getNappula(j).getVari())) {
+                        valkoinen++;
+                    }
+                }
             }
         }
         return generoiPalauterivi(musta, valkoinen);
@@ -97,12 +106,32 @@ public class Tietokone {
             if (mustienMaara > 0) {
                 palauteRivi.aseta(i, "musta");
                 mustienMaara = mustienMaara - 1;
-            }
-            if (valkoistenMaara > 0) {
+            } else if (valkoistenMaara > 0) {
                 palauteRivi.aseta(i, "valkoinen");
                 valkoistenMaara = valkoistenMaara - 1;
             }
         }
         return palauteRivi;
     }
+
+    /**
+     * Tulostaa oikean rivin.
+     */
+    public void tulostaOikeaRivi() {
+        oikeaRivi.tulosta();
+    }
+    
+    public boolean getArvattuOikein() {
+        return arvattuOikein;
+    }
+
+    /**
+     * Testikäyttöön. Asetetaan oikea rivi halutuksi, arpomatta.
+     *
+     * @param rivi Haluttu oikea rivi.
+     */
+    public void asetaOikeaRivi(Rivi rivi) {
+        oikeaRivi = rivi;
+    }
+    
 }

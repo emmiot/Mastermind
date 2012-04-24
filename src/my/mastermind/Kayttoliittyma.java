@@ -26,4 +26,6 @@ public interface Kayttoliittyma {
     public Rivi getRivi();
 
     public int riviOk();
+
+    public void naytaPalaute(Rivi rivi, int arvauksia);
 }

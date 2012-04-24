@@ -62,4 +62,13 @@ public class Tekstikayttoliittyma implements Kayttoliittyma {
         System.out.println("1 : Korjaa");
         return lukija.nextInt();
     }
+
+    @Override
+    public void naytaPalaute(Rivi palaute, int arvauksia) {
+        System.out.println("Olet arvannut " + arvauksia + " kertaa.");
+        System.out.println("Tietokoneen antama palauterivi:");
+        System.out.println("(Musta : oikea väri oikeassa paikassa)");
+        System.out.println("(Valkoinen: oikea väri väärässä paikassa)");
+        palaute.tulosta();
+    }
 }
