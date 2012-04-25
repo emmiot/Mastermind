@@ -57,7 +57,7 @@ public class Rivi {
     
     public void tulosta() {
         for (int i = 0; i < rivi.length; i++) {
-            System.out.println(i+1 + ". " + rivi[i].getVari());
+            System.out.println((i+1) + ". " + rivi[i].getVari());
         }
     }
 }

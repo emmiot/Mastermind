@@ -46,7 +46,7 @@ public class Tietokone {
             return "punainen";
         }
         if (arpaluku == 2) {
-            return "vihreä";
+            return "vihrea";
         }
         if (arpaluku == 3) {
             return "keltainen";
@@ -66,14 +66,13 @@ public class Tietokone {
      * @return
      */
     public Rivi tarkistaRivi(Rivi pelaajanArvaus) {
-        int[] apuTaulu = new int[4];
+        Rivi apuRivi = new Rivi();
         int musta = 0;
         int valkoinen = 0;
         for (int i = 0; i < 4; i++) {
             if (pelaajanArvaus.getNappula(i).getVari().equals(oikeaRivi.getNappula(i).getVari())) {
                 musta++;
-                apuTaulu[i] = 1;
-                oikeaRivi.aseta(i, null);
+                apuRivi.aseta(i, null);
             }
         }
         if (musta == 4) {
@@ -81,7 +80,7 @@ public class Tietokone {
         }
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (oikeaRivi.getNappula(j) != null) {
+                if (apuRivi.getNappula(j) != null) {
                     if (pelaajanArvaus.getNappula(i).getVari().equals(oikeaRivi.getNappula(j).getVari())) {
                         valkoinen++;
                     }
@@ -109,6 +108,8 @@ public class Tietokone {
             } else if (valkoistenMaara > 0) {
                 palauteRivi.aseta(i, "valkoinen");
                 valkoistenMaara = valkoistenMaara - 1;
+            } else {
+                palauteRivi.aseta(i, "tyhjä");
             }
         }
         return palauteRivi;

@@ -17,6 +17,9 @@ public class Main {
 //        Pelimekaniikka peli = new Pelimekaniikka(ui);
         Pelimekaniikka peli = new Pelimekaniikka(kayttis);
         peli.valikko();
+//        Tietokone kone = new Tietokone();
+//        kone.generoiRivi();
+//        kone.tulostaOikeaRivi();
     }
 
 //    private static void arvoVari() {

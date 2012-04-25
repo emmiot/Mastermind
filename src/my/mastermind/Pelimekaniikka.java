@@ -29,6 +29,7 @@ public class Pelimekaniikka implements ActionListener {
         this.arvauksia = 0;
         edellisetArvaukset = new Rivi[10];
         edArvIterator = 0;
+        this.kayttis = kayttis;
 //        this.ui = ui;
 //        ui.setListener(this);
 //        ui.setVisible(true);
@@ -58,21 +59,23 @@ public class Pelimekaniikka implements ActionListener {
      * Pyörittää keskeistä pelimekaniikkaa.
      */
     public void loop() {
-        if (arvauksia >= 10) {
-            havio();
-        }
-        kayttis.kysyPelaajalta();
-        if (kayttis.riviOk() == 1) {
-            kayttis.rivinKorjaus();
-        }
-        edellisetArvaukset[edArvIterator] = kayttis.getRivi();
-        edArvIterator++;
-        arvauksia++;
-        palaute = tietokone.tarkistaRivi(kayttis.getRivi());
-        if (tietokone.getArvattuOikein()) {
-            voitto();
-        } else {
-            kayttis.naytaPalaute(palaute, arvauksia);
+        while (true) {
+            if (arvauksia >= 10) {
+                havio();
+            }
+            kayttis.kysyPelaajalta();
+            if (kayttis.riviOk() == 1) {
+                kayttis.rivinKorjaus();
+            }
+            edellisetArvaukset[edArvIterator] = kayttis.getRivi();
+            edArvIterator++;
+            arvauksia++;
+            palaute = tietokone.tarkistaRivi(kayttis.getRivi());
+            if (tietokone.getArvattuOikein()) {
+                voitto();
+            } else {
+                kayttis.naytaPalaute(palaute, arvauksia);
+            }
         }
     }
 
