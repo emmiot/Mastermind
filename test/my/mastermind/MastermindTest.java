@@ -19,8 +19,6 @@ public class MastermindTest {
     Rivi rivi4;
     Rivi oikeaRivi;
     Rivi palauteRivi;
-    Kayttoliittyma kayttis;
-    Pelimekaniikka peli;
     Tietokone tietokone;
     MastermindUI ui;
 
@@ -34,8 +32,7 @@ public class MastermindTest {
 
     @Before
     public void setUp() {
-        peli = new Pelimekaniikka();
-        ui = new MastermindUI(peli);
+        ui = new MastermindUI();
         tietokone = new Tietokone();
         rivi = new Rivi();
         rivi.aseta(0, Color.BLUE);
@@ -63,15 +60,12 @@ public class MastermindTest {
         rivi4.aseta(1, Color.BLUE);
         rivi4.aseta(2, Color.BLACK);
         rivi4.aseta(3, Color.WHITE);
-
     }
 
     @After
     public void tearDown() {
     }
 
-    // Pelimekaniikka testit -----------
-    // ------------ Pelimekaniikka testit
     // Tietokone testit -----------
     @Test
     public void rivinTarkistusAntaaValkoisen() {

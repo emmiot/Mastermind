@@ -6,8 +6,10 @@ package my.mastermind;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -16,27 +18,23 @@ import javax.swing.JPanel;
  */
 public class MastermindUI extends javax.swing.JFrame {
 
-    private Pelimekaniikka peli;
-    private Paneeli[] plist;
-    Rivi[] edellisetArvaukset;
-    int edArvIterator;
     private int arvauksia;
     Rivi pelaajanRivi;
     private Tietokone tietokone;
-    JPanel panel;
     int koko;
     Point origin;
+    Rivi palauteRivi;
 
     /**
      * Creates new form MastermindUI
      */
-    public MastermindUI(Pelimekaniikka peli) {
+    public MastermindUI() {
         initComponents();
-        plist = new Paneeli[20];
         nollaaKaikki();
-        koko = 25;
+        koko = 35;
         origin = new Point(40, 25);
-//        piirraRivi(pelaajanRivi);
+        jTextPane1.setEditable(false);
+        jTextPane1.setText("Select colors and submit. \n\nComputer's feedback: \nBlack: A right color in the right place \nWhite: A right color in a wrong place");
     }
 
     public void piirraRivi(Rivi rivi) {
@@ -54,8 +52,6 @@ public class MastermindUI extends javax.swing.JFrame {
     }
 
     private void nollaaKaikki() {
-        edellisetArvaukset = new Rivi[10];
-        edArvIterator = 0;
         this.arvauksia = 0;
         pelaajanRivi = new Rivi();
         alustaPelaajanRivi();
@@ -108,6 +104,17 @@ public class MastermindUI extends javax.swing.JFrame {
         }
     }
 
+    private void voitto() {
+        System.out.println("Onneksi olkoon, voitit pelin " + arvauksia + " arvauksella!");
+    }
+
+    private void havio() {
+        JOptionPane.showMessageDialog(null, "Hävisit! Liikaa arvauksia.");
+//        System.out.println("Hävisit! Liikaa arvauksia.");
+//        System.out.println("Oikea rivi olisi ollut: ");
+//        tietokone.tulostaOikeaRivi();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,7 +129,6 @@ public class MastermindUI extends javax.swing.JFrame {
         valinta2 = new javax.swing.JComboBox();
         valinta3 = new javax.swing.JComboBox();
         valinta4 = new javax.swing.JComboBox();
-        noteField = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -135,12 +141,15 @@ public class MastermindUI extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Mastermind");
 
         submit.setText("Submit");
         submit.setToolTipText("");
@@ -179,10 +188,7 @@ public class MastermindUI extends javax.swing.JFrame {
             }
         });
 
-        noteField.setText("Note");
-        noteField.setToolTipText("");
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Pelaajan rivit"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Player's Guesses"));
 
         jLabel1.setText("1.");
 
@@ -221,12 +227,12 @@ public class MastermindUI extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(jLabel9)
                     .addComponent(jLabel10))
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
@@ -246,10 +252,10 @@ public class MastermindUI extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tietokoneen palaute"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Computer's Feedback"));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -261,6 +267,8 @@ public class MastermindUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        jScrollPane1.setViewportView(jTextPane1);
 
         jMenu1.setText("File");
 
@@ -288,38 +296,33 @@ public class MastermindUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(valinta1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(valinta2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(valinta3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(valinta4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(submit, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
-                            .addComponent(noteField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(25, 25, 25))
+                        .addComponent(valinta1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(valinta2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(valinta3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(valinta4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(submit, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(noteField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(valinta2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,6 +330,8 @@ public class MastermindUI extends javax.swing.JFrame {
                     .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(valinta1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(valinta4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -362,11 +367,17 @@ public class MastermindUI extends javax.swing.JFrame {
     }//GEN-LAST:event_valinta3ActionPerformed
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        edellisetArvaukset[edArvIterator] = pelaajanRivi;
-        edArvIterator++;
+        palauteRivi = tietokone.tarkistaRivi(pelaajanRivi);
         piirraRivi(pelaajanRivi);
+        piirraPalauteRivi(palauteRivi);
         arvauksia++;
-//        tietokone.tarkistaRivi(pelaajanRivi);
+        this.repaint();
+        if (tietokone.getArvattuOikein()) {
+            voitto();
+        }
+        if (arvauksia == 10) {
+            havio();
+        }
     }//GEN-LAST:event_submitActionPerformed
     /**
      * @param args the command line arguments
@@ -388,20 +399,12 @@ public class MastermindUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JLabel noteField;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JButton submit;
     private javax.swing.JComboBox valinta1;
     private javax.swing.JComboBox valinta2;
     private javax.swing.JComboBox valinta3;
     private javax.swing.JComboBox valinta4;
     // End of variables declaration//GEN-END:variables
-//    private JLabel createColoredLabel(Color color, Point origin, int kierros) {
-//        JLabel label = new JLabel();
-//        label.setVerticalAlignment(JLabel.TOP);
-//        label.setHorizontalAlignment(JLabel.CENTER);
-//        label.setOpaque(true);
-//        label.setBackground(color);
-//        label.setBounds(origin.x, origin.y, koko, koko);
-//        return label;
-//    }
 }

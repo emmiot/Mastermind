@@ -68,12 +68,13 @@ public class Tietokone {
      */
     public Rivi tarkistaRivi(Rivi pelaajanArvaus) {
         Rivi apuRivi = new Rivi();
+        apuRivi.alusta();
         int musta = 0;
         int valkoinen = 0;
         for (int i = 0; i < 4; i++) {
             if (pelaajanArvaus.getVari(i).equals(oikeaRivi.getVari(i))) {
                 musta++;
-                apuRivi.aseta(i, null);
+                apuRivi.aseta(i, Color.LIGHT_GRAY);
             }
         }
         if (musta == 4) {
@@ -81,7 +82,7 @@ public class Tietokone {
         }
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (apuRivi.getVari(j) != null) {
+                if (apuRivi.getVari(j).equals(Color.LIGHT_GRAY) == false) {
                     if (pelaajanArvaus.getVari(i).equals(oikeaRivi.getVari(j))) {
                         valkoinen++;
                     }

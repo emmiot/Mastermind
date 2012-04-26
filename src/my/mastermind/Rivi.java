@@ -54,13 +54,13 @@ public class Rivi {
         }
         return palautus;
     }
-    
+
     public void tulosta() {
         for (int i = 0; i < rivi.length; i++) {
-            System.out.println((i+1) + ". " + rivi[i]);
+            System.out.println((i + 1) + ". " + rivi[i]);
         }
     }
-    
+
     public boolean tarkistaOnkoTyhjia() {
         for (int i = 0; i < rivi.length; i++) {
             if (rivi[i] == null) {
@@ -69,8 +69,10 @@ public class Rivi {
         }
         return false;
     }
-    
-    public void varit() {
-        
+
+    public void alusta() {
+        for (int i = 0; i < 4; i++) {
+            rivi[i] = Color.BLACK;
+        }
     }
 }
