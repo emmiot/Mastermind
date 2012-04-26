@@ -154,7 +154,7 @@ public class MastermindUI extends javax.swing.JFrame {
      */
     private void havio() {
         JOptionPane.showMessageDialog(null, "Hävisit! Liikaa arvauksia.");
-        piirraOikeaRivi(tietokone.getOikeaRivi());
+//        piirraOikeaRivi(tietokone.getOikeaRivi());
 //        System.out.println("Oikea rivi olisi ollut: ");
 //        tietokone.tulostaOikeaRivi();
     }
