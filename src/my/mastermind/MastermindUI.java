@@ -4,11 +4,10 @@
  */
 package my.mastermind;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -25,6 +24,8 @@ public class MastermindUI extends javax.swing.JFrame {
     Rivi pelaajanRivi;
     private Tietokone tietokone;
     JPanel panel;
+    int koko;
+    Point origin;
 
     /**
      * Creates new form MastermindUI
@@ -32,13 +33,79 @@ public class MastermindUI extends javax.swing.JFrame {
     public MastermindUI(Pelimekaniikka peli) {
         initComponents();
         plist = new Paneeli[20];
+        nollaaKaikki();
+        koko = 25;
+        origin = new Point(40, 25);
+//        piirraRivi(pelaajanRivi);
+    }
+
+    public void piirraRivi(Rivi rivi) {
+        for (int i = 0; i < 4; i++) {
+            JLabel label = createColoredLabel(rivi.getVari(i), ((origin.x) + (koko * i)), ((origin.y) + (koko * arvauksia)));
+            jPanel2.add(label);
+        }
+    }
+
+    public void piirraPalauteRivi(Rivi palaute) {
+        for (int i = 0; i < 4; i++) {
+            JLabel label = createColoredLabel(palaute.getVari(i), ((origin.x) + (koko * i)), ((origin.y) + (koko * arvauksia)));
+            jPanel3.add(label);
+        }
+    }
+
+    private void nollaaKaikki() {
         edellisetArvaukset = new Rivi[10];
         edArvIterator = 0;
         this.arvauksia = 0;
         pelaajanRivi = new Rivi();
         alustaPelaajanRivi();
         this.tietokone = new Tietokone();
-        paneeli1.setVisible(true);
+        tietokone.generoiRivi();
+    }
+
+    private JLabel createColoredLabel(Color color, int x, int y) {
+        JLabel label = new JLabel();
+        label.setVerticalAlignment(JLabel.TOP);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setOpaque(true);
+        label.setBackground(color);
+        label.setBorder(BorderFactory.createLineBorder(Color.black));
+        label.setBounds(x, y, koko, koko);
+        return label;
+    }
+
+    public void asetaPelaajanRivi(int indeksi, String vari) {
+        pelaajanRivi.aseta(indeksi, mikaVari(vari));
+    }
+
+    private Color mikaVari(String vari) {
+        if (vari.toLowerCase().equals("blue")) {
+            return Color.BLUE;
+        }
+        if (vari.toLowerCase().equals("red")) {
+            return Color.RED;
+        }
+        if (vari.toLowerCase().equals("yellow")) {
+            return Color.YELLOW;
+        }
+        if (vari.toLowerCase().equals("green")) {
+            return Color.GREEN;
+        }
+        if (vari.toLowerCase().equals("black")) {
+            return Color.BLACK;
+        } else {
+            return Color.WHITE;
+        }
+    }
+
+    /**
+     * Alustaa pelaajan rivin kaikki värit sinisiksi, sillä se on ensimmäinen
+     * valinta combo boxissa.
+     */
+    private void alustaPelaajanRivi() {
+        for (int i = 0; i < 4; i++) {
+            pelaajanRivi.aseta(i, Color.BLUE);
+        }
     }
 
     /**
@@ -57,7 +124,16 @@ public class MastermindUI extends javax.swing.JFrame {
         valinta4 = new javax.swing.JComboBox();
         noteField = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        paneeli1 = new my.mastermind.Paneeli();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -108,16 +184,25 @@ public class MastermindUI extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Pelaajan rivit"));
 
-        javax.swing.GroupLayout paneeli1Layout = new javax.swing.GroupLayout(paneeli1);
-        paneeli1.setLayout(paneeli1Layout);
-        paneeli1Layout.setHorizontalGroup(
-            paneeli1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 189, Short.MAX_VALUE)
-        );
-        paneeli1Layout.setVerticalGroup(
-            paneeli1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 418, Short.MAX_VALUE)
-        );
+        jLabel1.setText("1.");
+
+        jLabel2.setText("2.");
+
+        jLabel3.setText("3.");
+
+        jLabel4.setText("4.");
+
+        jLabel5.setText("5.");
+
+        jLabel6.setText("6.");
+
+        jLabel7.setText("7.");
+
+        jLabel8.setText("8.");
+
+        jLabel9.setText("9.");
+
+        jLabel10.setText("10.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -125,14 +210,43 @@ public class MastermindUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(paneeli1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10))
+                .addContainerGap(171, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(paneeli1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tietokoneen palaute"));
@@ -179,7 +293,7 @@ public class MastermindUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
@@ -224,39 +338,50 @@ public class MastermindUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        tietokone.generoiRivi();
+        nollaaKaikki();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void valinta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valinta1ActionPerformed
         String vari1 = (String) valinta1.getSelectedItem();
-        asetaPelaajanRivi(1, vari1);
+        asetaPelaajanRivi(0, vari1);
     }//GEN-LAST:event_valinta1ActionPerformed
 
     private void valinta4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valinta4ActionPerformed
-        String vari4 = (String) valinta1.getSelectedItem();
-        asetaPelaajanRivi(4, vari4);
+        String vari4 = (String) valinta4.getSelectedItem();
+        asetaPelaajanRivi(3, vari4);
     }//GEN-LAST:event_valinta4ActionPerformed
 
     private void valinta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valinta2ActionPerformed
-        String vari2 = (String) valinta1.getSelectedItem();
-        asetaPelaajanRivi(2, vari2);
+        String vari2 = (String) valinta2.getSelectedItem();
+        asetaPelaajanRivi(1, vari2);
     }//GEN-LAST:event_valinta2ActionPerformed
 
     private void valinta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valinta3ActionPerformed
-        String vari3 = (String) valinta1.getSelectedItem();
-        asetaPelaajanRivi(3, vari3);
+        String vari3 = (String) valinta3.getSelectedItem();
+        asetaPelaajanRivi(2, vari3);
     }//GEN-LAST:event_valinta3ActionPerformed
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         edellisetArvaukset[edArvIterator] = pelaajanRivi;
         edArvIterator++;
+        piirraRivi(pelaajanRivi);
         arvauksia++;
-        tietokone.tarkistaRivi(pelaajanRivi);
+//        tietokone.tarkistaRivi(pelaajanRivi);
     }//GEN-LAST:event_submitActionPerformed
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -264,45 +389,19 @@ public class MastermindUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel noteField;
-    private my.mastermind.Paneeli paneeli1;
     private javax.swing.JButton submit;
     private javax.swing.JComboBox valinta1;
     private javax.swing.JComboBox valinta2;
     private javax.swing.JComboBox valinta3;
     private javax.swing.JComboBox valinta4;
     // End of variables declaration//GEN-END:variables
-
-    public void asetaPelaajanRivi(int indeksi, String vari) {
-        pelaajanRivi.aseta(indeksi, mikaVari(vari));
-    }
-
-    private Color mikaVari(String vari) {
-        if (vari.toLowerCase().equals("blue")) {
-            return Color.BLUE;
-        }
-        if (vari.toLowerCase().equals("red")) {
-            return Color.RED;
-        }
-        if (vari.toLowerCase().equals("yellow")) {
-            return Color.YELLOW;
-        }
-        if (vari.toLowerCase().equals("green")) {
-            return Color.GREEN;
-        }
-        if (vari.toLowerCase().equals("black")) {
-            return Color.BLACK;
-        } else {
-            return Color.WHITE;
-        }
-    }
-
-    /**
-     * Alustaa pelaajan rivin kaikki värit sinisiksi, sillä se on ensimmäinen
-     * valinta combo boxissa.
-     */
-    private void alustaPelaajanRivi() {
-        for (int i = 0; i < 4; i++) {
-            pelaajanRivi.aseta(i, Color.BLUE);
-        }
-    }
+//    private JLabel createColoredLabel(Color color, Point origin, int kierros) {
+//        JLabel label = new JLabel();
+//        label.setVerticalAlignment(JLabel.TOP);
+//        label.setHorizontalAlignment(JLabel.CENTER);
+//        label.setOpaque(true);
+//        label.setBackground(color);
+//        label.setBounds(origin.x, origin.y, koko, koko);
+//        return label;
+//    }
 }
