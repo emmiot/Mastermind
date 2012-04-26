@@ -1,32 +1,27 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package my.mastermind;
 
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.Color;
+import java.awt.Point;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 /**
+ * Graafinen käyttöliittymä ja pelin keskeinen mekaniikka.
  *
- * @author eotava
+ * @author Emmi Otava
  */
 public class MastermindUI extends javax.swing.JFrame {
 
-    private int arvauksia;
-    Rivi pelaajanRivi;
     private Tietokone tietokone;
-    int koko;
-    Point origin;
-    Rivi palauteRivi;
+    private Rivi pelaajanRivi;
+    private Rivi palauteRivi;
+    private int arvauksia;
+    private Point origin;
+    private int koko;
 
     /**
-     * Creates new form MastermindUI
+     * Konstruktori. Asettaa alkuarvot.
      */
     public MastermindUI() {
         initComponents();
@@ -37,6 +32,26 @@ public class MastermindUI extends javax.swing.JFrame {
         jTextPane1.setText("Select colors and submit. \n\nComputer's feedback: \nBlack: A right color in the right place \nWhite: A right color in a wrong place");
     }
 
+    /**
+     * Uuden pelin alkaessa nollaa ja alustaa kaikki arvot.
+     */
+    private void nollaaKaikki() {
+        jPanel2.removeAll();
+        jPanel3.removeAll();
+        this.repaint();
+        this.arvauksia = 0;
+        pelaajanRivi = new Rivi();
+        alustaPelaajanRivi();
+        this.tietokone = new Tietokone();
+        tietokone.generoiRivi();
+        submit.setEnabled(true);
+    }
+
+    /**
+     * Piirtää parametrina annetun pelaajan rivin.
+     *
+     * @param rivi
+     */
     public void piirraRivi(Rivi rivi) {
         for (int i = 0; i < 4; i++) {
             JLabel label = createColoredLabel(rivi.getVari(i), ((origin.x) + (koko * i)), ((origin.y) + (koko * arvauksia)));
@@ -44,21 +59,31 @@ public class MastermindUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Piirtää parametrina annetun palauterivin.
+     *
+     * @param palaute
+     */
     public void piirraPalauteRivi(Rivi palaute) {
         for (int i = 0; i < 4; i++) {
             JLabel label = createColoredLabel(palaute.getVari(i), ((origin.x) + (koko * i)), ((origin.y) + (koko * arvauksia)));
             jPanel3.add(label);
         }
     }
-
-    private void nollaaKaikki() {
-        this.arvauksia = 0;
-        pelaajanRivi = new Rivi();
-        alustaPelaajanRivi();
-        this.tietokone = new Tietokone();
-        tietokone.generoiRivi();
+    
+    public void piirraOikeaRivi(Rivi rivi) {
+        
     }
 
+    /**
+     * Piirtää väritetyn ruudun annettujen parametrien mukaan. Ruudun koko on
+     * vakio.
+     *
+     * @param color Haluttu väri.
+     * @param x Sijainti x-akselilla.
+     * @param y Sijainti y-akselilla.
+     * @return
+     */
     private JLabel createColoredLabel(Color color, int x, int y) {
         JLabel label = new JLabel();
         label.setVerticalAlignment(JLabel.TOP);
@@ -70,10 +95,23 @@ public class MastermindUI extends javax.swing.JFrame {
         return label;
     }
 
+    /**
+     * Asettaa pelaajan riviin halutulle indeksille halutun värin.
+     *
+     * @param indeksi Haluttu indeksi (väliltä 0-3)
+     * @param vari Haluttu väri kuuden hyväksytyn joukosta.
+     */
     public void asetaPelaajanRivi(int indeksi, String vari) {
         pelaajanRivi.aseta(indeksi, mikaVari(vari));
     }
 
+    /**
+     * asetaPelaajanRivi()n apumetodi, joka saa parametrina värin
+     * String-muodossa ja palauttaa sitä vastaavan Color-olion.
+     *
+     * @param vari
+     * @return Halutunvärinen Color-olio.
+     */
     private Color mikaVari(String vari) {
         if (vari.toLowerCase().equals("blue")) {
             return Color.BLUE;
@@ -104,13 +142,19 @@ public class MastermindUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Ilmoittaa voitosta.
+     */
     private void voitto() {
-        System.out.println("Onneksi olkoon, voitit pelin " + arvauksia + " arvauksella!");
+        JOptionPane.showMessageDialog(null, "Onneksi olkoon, voitit pelin!");
     }
 
+    /**
+     * Ilmoittaa häviöstä.
+     */
     private void havio() {
         JOptionPane.showMessageDialog(null, "Hävisit! Liikaa arvauksia.");
-//        System.out.println("Hävisit! Liikaa arvauksia.");
+        piirraOikeaRivi(tietokone.getOikeaRivi());
 //        System.out.println("Oikea rivi olisi ollut: ");
 //        tietokone.tulostaOikeaRivi();
     }
@@ -130,6 +174,9 @@ public class MastermindUI extends javax.swing.JFrame {
         valinta3 = new javax.swing.JComboBox();
         valinta4 = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -140,9 +187,6 @@ public class MastermindUI extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -190,6 +234,32 @@ public class MastermindUI extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Player's Guesses"));
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 195, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Computer's Feedback"));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 365, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(jTextPane1);
+
         jLabel1.setText("1.");
 
         jLabel2.setText("2.");
@@ -209,66 +279,6 @@ public class MastermindUI extends javax.swing.JFrame {
         jLabel9.setText("9.");
 
         jLabel10.setText("10.");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
-                .addContainerGap(183, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel9)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel10)
-                .addContainerGap(43, Short.MAX_VALUE))
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Computer's Feedback"));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jScrollPane1.setViewportView(jTextPane1);
 
         jMenu1.setText("File");
 
@@ -301,6 +311,18 @@ public class MastermindUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -319,11 +341,34 @@ public class MastermindUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel10))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(valinta2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(valinta3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -331,7 +376,7 @@ public class MastermindUI extends javax.swing.JFrame {
                     .addComponent(valinta1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(valinta4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -373,9 +418,10 @@ public class MastermindUI extends javax.swing.JFrame {
         arvauksia++;
         this.repaint();
         if (tietokone.getArvattuOikein()) {
+            submit.setEnabled(false);
             voitto();
-        }
-        if (arvauksia == 10) {
+        } else if (arvauksia == 10) {
+            submit.setEnabled(false);
             havio();
         }
     }//GEN-LAST:event_submitActionPerformed

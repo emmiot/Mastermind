@@ -120,8 +120,8 @@ public class Tietokone {
     /**
      * Tulostaa oikean rivin.
      */
-    public void tulostaOikeaRivi() {
-        oikeaRivi.tulosta();
+    public Rivi getOikeaRivi() {
+        return oikeaRivi;
     }
     
     public boolean getArvattuOikein() {
