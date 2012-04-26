@@ -1,5 +1,6 @@
 package my.mastermind;
 
+import java.awt.Color;
 import java.util.Random;
 
 /**
@@ -37,24 +38,24 @@ public class Tietokone {
      *
      * @return Satunnainen väri sallituista nappulan väreistä.
      */
-    private String arvoVari() {
+    private Color arvoVari() {
         int arpaluku = random.nextInt(6);
         if (arpaluku == 0) {
-            return "sininen";
+            return Color.BLUE;
         }
         if (arpaluku == 1) {
-            return "punainen";
+            return Color.RED;
         }
         if (arpaluku == 2) {
-            return "vihrea";
+            return Color.GREEN;
         }
         if (arpaluku == 3) {
-            return "keltainen";
+            return Color.YELLOW;
         }
         if (arpaluku == 4) {
-            return "musta";
+            return Color.BLACK;
         } else {
-            return "valkoinen";
+            return Color.WHITE;
         }
     }
 
@@ -70,7 +71,7 @@ public class Tietokone {
         int musta = 0;
         int valkoinen = 0;
         for (int i = 0; i < 4; i++) {
-            if (pelaajanArvaus.getNappula(i).getVari().equals(oikeaRivi.getNappula(i).getVari())) {
+            if (pelaajanArvaus.getVari(i).equals(oikeaRivi.getVari(i))) {
                 musta++;
                 apuRivi.aseta(i, null);
             }
@@ -80,8 +81,8 @@ public class Tietokone {
         }
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (apuRivi.getNappula(j) != null) {
-                    if (pelaajanArvaus.getNappula(i).getVari().equals(oikeaRivi.getNappula(j).getVari())) {
+                if (apuRivi.getVari(j) != null) {
+                    if (pelaajanArvaus.getVari(i).equals(oikeaRivi.getVari(j))) {
                         valkoinen++;
                     }
                 }
@@ -103,13 +104,13 @@ public class Tietokone {
         Rivi palauteRivi = new Rivi();
         for (int i = 0; i < 4; i++) {
             if (mustienMaara > 0) {
-                palauteRivi.aseta(i, "musta");
+                palauteRivi.aseta(i, Color.BLACK);
                 mustienMaara = mustienMaara - 1;
             } else if (valkoistenMaara > 0) {
-                palauteRivi.aseta(i, "valkoinen");
+                palauteRivi.aseta(i, Color.WHITE);
                 valkoistenMaara = valkoistenMaara - 1;
             } else {
-                palauteRivi.aseta(i, "tyhjä");
+                palauteRivi.aseta(i, Color.LIGHT_GRAY);
             }
         }
         return palauteRivi;

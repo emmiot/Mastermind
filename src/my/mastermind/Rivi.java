@@ -1,5 +1,6 @@
 package my.mastermind;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -9,13 +10,13 @@ import java.util.ArrayList;
  */
 public class Rivi {
 
-    private Nappula[] rivi;
+    private Color[] rivi;
 
     /**
      * Luo rivin.
      */
     public Rivi() {
-        rivi = new Nappula[4];
+        rivi = new Color[4];
     }
 
     /**
@@ -24,9 +25,8 @@ public class Rivi {
      * @param indeksi
      * @param vari
      */
-    public void aseta(int indeksi, String vari) {
-        Nappula nappula = new Nappula(vari);
-        rivi[indeksi] = nappula;
+    public void aseta(int indeksi, Color vari) {
+        rivi[indeksi] = vari;
     }
 
     /**
@@ -35,7 +35,7 @@ public class Rivi {
      * @param indeksi
      * @return nappula halutun indeksin alta
      */
-    public Nappula getNappula(int indeksi) {
+    public Color getVari(int indeksi) {
         return rivi[indeksi];
     }
 
@@ -45,10 +45,10 @@ public class Rivi {
      * @param vari
      * @return lista, jossa kaikki oikeanväristen nappuloiden indeksit
      */
-    public ArrayList<Integer> etsiVari(String vari) {
+    public ArrayList<Integer> etsiVari(Color vari) {
         ArrayList<Integer> palautus = new ArrayList<Integer>();
         for (int i = 0; i < 4; i++) {
-            if (rivi[i].getVari().equals(vari)) {
+            if (rivi[i].equals(vari)) {
                 palautus.add(i);
             }
         }
@@ -57,7 +57,20 @@ public class Rivi {
     
     public void tulosta() {
         for (int i = 0; i < rivi.length; i++) {
-            System.out.println((i+1) + ". " + rivi[i].getVari());
+            System.out.println((i+1) + ". " + rivi[i]);
         }
+    }
+    
+    public boolean tarkistaOnkoTyhjia() {
+        for (int i = 0; i < rivi.length; i++) {
+            if (rivi[i] == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void varit() {
+        
     }
 }

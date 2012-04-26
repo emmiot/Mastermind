@@ -12,16 +12,15 @@ public class Main {
 //            arvoVari();
 //        }
 
-        Tekstikayttoliittyma kayttis = new Tekstikayttoliittyma();
-//        MastermindUI ui = new MastermindUI();
-//        Pelimekaniikka peli = new Pelimekaniikka(ui);
-        Pelimekaniikka peli = new Pelimekaniikka(kayttis);
-        peli.valikko();
+        Pelimekaniikka peli = new Pelimekaniikka();
+        MastermindUI ui = new MastermindUI(peli);
+        ui.setVisible(true);
+
+//        peli.valikko();
 //        Tietokone kone = new Tietokone();
 //        kone.generoiRivi();
 //        kone.tulostaOikeaRivi();
     }
-
 //    private static void arvoVari() {
 //        int arpaluku = random.nextInt(6);
 //        if (arpaluku == 0) {
