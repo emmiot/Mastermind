@@ -15,7 +15,8 @@ public class Tietokone {
     private boolean arvattuOikein;
 
     /**
-     * Luodaan olio sekä uusi Random-olio, joka laitetaan talteen.
+     * Konstruktori. Luodaan myös uusi Random-olio, joka laitetaan talteen, ja
+     * asetetaan arvattuOikein falseksi.
      */
     public Tietokone() {
         random = new Random();
@@ -23,8 +24,8 @@ public class Tietokone {
     }
 
     /**
-     * Generoi satunnaisen rivin, jota pelaaja yrittää arvata. Rivi jää olion
-     * sisälle muistiin.
+     * Generoi satunnaisen rivin, jota pelaaja yrittää arvata. Rivi otetaan
+     * talteen olion sisälle.
      */
     public void generoiRivi() {
         oikeaRivi = new Rivi();
@@ -64,17 +65,20 @@ public class Tietokone {
      * generoiPalauterivi():lle, millainen palauterivi pitää tehdä.
      *
      * @param pelaajanArvaus Pelaajan arvaama rivi.
-     * @return
+     * @return Rivi
      */
     public Rivi tarkistaRivi(Rivi pelaajanArvaus) {
-        Rivi apuRivi = new Rivi();
-        apuRivi.alusta();
+        Rivi oikeanKopio = new Rivi();
+        oikeanKopio.kopioiRivi(oikeaRivi);
+        Rivi pelaajanKopio = new Rivi();
+        pelaajanKopio.kopioiRivi(pelaajanArvaus);
         int musta = 0;
         int valkoinen = 0;
         for (int i = 0; i < 4; i++) {
-            if (pelaajanArvaus.getVari(i).equals(oikeaRivi.getVari(i))) {
+            if (pelaajanKopio.getVari(i).equals(oikeanKopio.getVari(i))) {
                 musta++;
-                apuRivi.aseta(i, Color.LIGHT_GRAY);
+                oikeanKopio.aseta(i, Color.LIGHT_GRAY);
+                pelaajanKopio.aseta(i, Color.LIGHT_GRAY);
             }
         }
         if (musta == 4) {
@@ -82,9 +86,11 @@ public class Tietokone {
         }
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (apuRivi.getVari(j).equals(Color.LIGHT_GRAY) == false) {
-                    if (pelaajanArvaus.getVari(i).equals(oikeaRivi.getVari(j))) {
+                if (!oikeanKopio.getVari(j).equals(Color.LIGHT_GRAY) && !pelaajanKopio.getVari(i).equals(Color.LIGHT_GRAY)) {
+                    if (pelaajanKopio.getVari(i).equals(oikeanKopio.getVari(j))) {
                         valkoinen++;
+                        oikeanKopio.aseta(j, Color.LIGHT_GRAY);
+                        pelaajanKopio.aseta(i, Color.LIGHT_GRAY);
                     }
                 }
             }
@@ -99,9 +105,9 @@ public class Tietokone {
      * @param mustienMaara Palauteriviin tulevien mustien nappuloiden määrä.
      * @param valkoistenMaara Palauteriviin tulevien valkoisten nappuloiden
      * määrä.
-     * @return
+     * @return Rivi
      */
-    public Rivi generoiPalauterivi(int mustienMaara, int valkoistenMaara) {
+    private Rivi generoiPalauterivi(int mustienMaara, int valkoistenMaara) {
         Rivi palauteRivi = new Rivi();
         for (int i = 0; i < 4; i++) {
             if (mustienMaara > 0) {
@@ -118,12 +124,19 @@ public class Tietokone {
     }
 
     /**
-     * Tulostaa oikean rivin.
+     * Palauttaa oikean rivin.
+     *
+     * @return Rivi
      */
     public Rivi getOikeaRivi() {
         return oikeaRivi;
     }
-    
+
+    /**
+     * Palauttaa tiedon, onko pelaaja jo arvannut oikein.
+     *
+     * @return boolean
+     */
     public boolean getArvattuOikein() {
         return arvattuOikein;
     }
@@ -136,5 +149,4 @@ public class Tietokone {
     public void asetaOikeaRivi(Rivi rivi) {
         oikeaRivi = rivi;
     }
-    
 }

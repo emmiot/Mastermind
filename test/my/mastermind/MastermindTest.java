@@ -66,7 +66,7 @@ public class MastermindTest {
     public void tearDown() {
     }
 
-    // Tietokone testit -----------
+    // Tietokone testit ->
     @Test
     public void rivinTarkistusAntaaValkoisen() {
         palauteRivi = tietokone.tarkistaRivi(rivi2);
@@ -85,9 +85,9 @@ public class MastermindTest {
         palauteRivi.tulosta();
         assertTrue(palauteRivi.getVari(0).equals(Color.BLACK) && palauteRivi.getVari(1).equals(Color.BLACK) && palauteRivi.getVari(2).equals(Color.WHITE) && palauteRivi.getVari(3).equals(Color.WHITE));
     }
-    // ------------ Tietokone testit
+    // <- Tietokone testit
 
-    // Rivi testit ---------
+    // Rivi testit ->
     @Test
     public void teeRivi() {
         assertTrue(rivi.getVari(0) != null && rivi.getVari(1) != null && rivi.getVari(2) != null && rivi.getVari(3) != null);
@@ -106,5 +106,5 @@ public class MastermindTest {
         lista = rivi.etsiVari(Color.WHITE);
         assertTrue(lista.isEmpty());
     }
-    // --------- Rivi testit
+    // <- Rivi testit
 }
